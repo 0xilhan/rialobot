@@ -13,7 +13,7 @@ export const generateResponse = async ({
   knowledgeBase
 }: GenerateContentParams): Promise<string> => {
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY });
     
     // Construct the parts array
     const parts: Part[] = [];
