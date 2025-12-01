@@ -76,7 +76,7 @@ function App() {
   };
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden font-sans text-rialo-black bg-[#EFECE2] flex items-center justify-center">
+    <div className="relative min-h-screen w-full overflow-hidden font-sans text-rialo-black bg-[#EFECE2] flex justify-center pt-4 md:pt-6">
 
       {/* ---- BACKGROUND LAYERS ---- */}
       <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#EFECE2] via-[#E5E1D4] to-[#DCD8CB] bg-[length:200%_200%] animate-gradient-move" />
