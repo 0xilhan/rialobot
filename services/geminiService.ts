@@ -13,7 +13,10 @@ export const generateResponse = async ({
   knowledgeBase
 }: GenerateContentParams): Promise<string> => {
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    // ⚠️ SECURITY WARNING ⚠️
+    // This is NOT safe for production. The API key is exposed on the client-side.
+    // For production, use a backend proxy to securely handle API requests.
+    const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY });
     
     // Construct the parts array
     const parts: Part[] = [];
