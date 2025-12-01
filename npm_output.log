@@ -1,0 +1,21 @@
+
+> rialo-bot@0.0.0 dev
+> vite
+
+
+  VITE v6.4.1  ready in 358 ms
+
+  ➜  Local:   http://localhost:3000/
+  ➜  Network: http://192.168.0.2:3000/
+8:37:08 AM [vite] .env changed, restarting server...
+8:37:08 AM [vite] server restarted.
+8:37:13 AM [vite] .env changed, restarting server...
+8:37:13 AM [vite] server restarted.
+8:37:16 AM [vite] .env changed, restarting server...
+8:37:16 AM [vite] server restarted.
+8:37:30 AM [vite] .env changed, restarting server...
+8:37:31 AM [vite] server restarted.
+8:37:33 AM [vite] .env changed, restarting server...
+8:37:33 AM [vite] server restarted.
+8:38:22 AM [vite] .env changed, restarting server...
+8:38:22 AM [vite] server restarted.
