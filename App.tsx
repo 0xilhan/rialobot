@@ -82,35 +82,42 @@ function App() {
   };
 
   return (
-    <div className="relative flex h-[100dvh] w-full items-center justify-center overflow-hidden font-sans text-rialo-black bg-[#EFECE2]">
+    // ROOT CONTAINER:
+    // We use 'flex flex-col' combined with 'h-[100dvh]' and padding on desktop.
+    // This allows the child card to simply be 'flex-1' (fill remaining space) 
+    // ensuring it never exceeds the screen height, fixing the cropping issue.
+    <div className="relative h-[100dvh] w-full bg-[#EFECE2] font-sans text-rialo-black flex flex-col md:justify-center md:p-6 overflow-hidden">
       
-      {/* --- 3D Background Elements --- */}
+      {/* --- 3D Background Elements (Fixed to background) --- */}
       <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#EFECE2] via-[#E5E1D4] to-[#DCD8CB] bg-[length:200%_200%] animate-gradient-move" />
       
-      {/* Rotating Wireframe Cube 1 */}
-      <div className="absolute top-[15%] left-[10%] opacity-20 animate-float-slow pointer-events-none">
+      {/* Background Decor */}
+      <div className="absolute top-[10%] left-[5%] opacity-20 animate-float-slow pointer-events-none hidden md:block">
          <Box size={120} strokeWidth={0.5} className="text-rialo-black animate-spin-slow" />
       </div>
-      
-      {/* Rotating Wireframe Cube 2 */}
-      <div className="absolute bottom-[20%] right-[5%] opacity-10 animate-float-delayed pointer-events-none">
+      <div className="absolute bottom-[15%] right-[5%] opacity-10 animate-float-delayed pointer-events-none hidden md:block">
          <Box size={200} strokeWidth={0.5} className="text-rialo-black animate-reverse-spin-slow" />
       </div>
-
-      {/* Abstract Gradient Orbs (Cinematic Blur) */}
       <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-white rounded-full mix-blend-soft-light filter blur-[80px] opacity-60 animate-pulse-slow pointer-events-none" />
       <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-[#111] rounded-full mix-blend-overlay filter blur-[100px] opacity-5 pointer-events-none" />
-
-      {/* Grain Overlay */}
       <div className="bg-grain" />
 
-      {/* --- Main Interface Container --- */}
-      <div className="relative z-10 flex flex-col h-[100dvh] md:h-[92vh] w-full md:max-w-5xl bg-rialo-cream/80 backdrop-blur-2xl md:border md:border-white/40 shadow-3d-card md:rounded-3xl overflow-hidden transition-all duration-700 animate-cinematic-fade-in group/card">
+      {/* --- MAIN CARD --- */}
+      {/* Mobile: Full width, Full height (via flex-1). */}
+      {/* Desktop: Max width, Flexible height (fits within padding), Rounded. */}
+      <div className="
+        relative z-10 flex flex-col overflow-hidden transition-all duration-700
+        w-full flex-1
+        md:mx-auto md:w-full md:max-w-5xl md:h-full md:max-h-full
+        md:rounded-3xl md:border md:border-white/40 md:shadow-3d-card
+        bg-rialo-cream/80 backdrop-blur-2xl
+        group/card
+      ">
         
         {/* Header */}
-        <header className="shrink-0 flex items-center justify-between px-6 py-5 border-b border-rialo-black/5 bg-white/40 backdrop-blur-md sticky top-0 z-20">
-          <div className="flex items-center gap-4 group cursor-default">
-            <div className="relative w-12 h-12 shadow-inner rounded-full p-0.5 bg-gradient-to-tr from-rialo-black to-gray-500">
+        <header className="shrink-0 flex items-center justify-between px-4 py-3 md:px-6 md:py-5 border-b border-rialo-black/5 bg-white/40 backdrop-blur-md sticky top-0 z-20">
+          <div className="flex items-center gap-3 md:gap-4 group cursor-default">
+            <div className="relative w-10 h-10 md:w-12 md:h-12 shadow-inner rounded-full p-0.5 bg-gradient-to-tr from-rialo-black to-gray-500">
                <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-rialo-cream group-hover:scale-105 transition-transform duration-500">
                 <img 
                     src="https://pbs.twimg.com/profile_images/1950265537784926208/qbjSWMDP_400x400.jpg" 
@@ -120,13 +127,17 @@ function App() {
                </div>
             </div>
             <div className="flex flex-col">
-              <h1 className="font-sans font-bold text-xl tracking-tight leading-none text-gradient flex items-center gap-2">
-                Rialo Bot 
-                <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-rialo-black text-rialo-cream shadow-sm">BETA</span>
+              <h1 className="font-sans font-bold text-lg md:text-xl tracking-tight leading-none flex items-center gap-2">
+                <span className="text-gradient">Rialo Bot</span>
+                {/* Updated BETA badge to be outlined/subtle instead of a solid black block */}
+                <span className="px-1.5 py-0.5 rounded-md text-[9px] font-mono border border-rialo-black/30 text-rialo-black/80 font-bold tracking-wider">BETA</span>
               </h1>
-              <div className="flex items-center gap-3 mt-1.5">
-                <span className="font-mono text-[9px] text-rialo-black/60 uppercase tracking-widest group-hover:tracking-[0.2em] transition-all duration-500">
+              <div className="flex items-center gap-3 mt-1">
+                <span className="font-mono text-[9px] text-rialo-black/60 uppercase tracking-widest group-hover:tracking-[0.2em] transition-all duration-500 hidden sm:inline-block">
                   Subzero Labs
+                </span>
+                <span className="font-mono text-[9px] text-rialo-black/60 uppercase tracking-widest sm:hidden">
+                  Subzero
                 </span>
                 {/* Status Icons */}
                 <div className="flex gap-1.5 opacity-40">
@@ -139,17 +150,21 @@ function App() {
           </div>
           <button 
             onClick={() => setMessages([messages[0]])}
-            className="p-3 text-rialo-black/40 hover:text-red-500 rounded-xl hover:bg-red-500/5 transition-all duration-300 group"
+            className="p-2 md:p-3 text-rialo-black/40 hover:text-red-500 rounded-xl hover:bg-red-500/5 transition-all duration-300 group"
             title="Reset Session"
           >
             <Trash2 size={18} className="group-hover:rotate-12 transition-transform duration-300" />
           </button>
         </header>
 
-        {/* Chat Area - Refactored for proper scrolling without clipping */}
-        <main className="flex-1 overflow-y-auto scroll-smooth no-scrollbar relative">
-          <div className="min-h-full flex flex-col px-4 md:px-8 pb-2">
-             {/* mt-auto pushes content to bottom when sparse, allows normal flow when full */}
+        {/* Chat Area */}
+        <main className="flex-1 overflow-y-auto scroll-smooth no-scrollbar relative flex flex-col">
+          {/* 
+             min-h-full: Ensures the container is at least as tall as the scroll area.
+             flex-col + mt-auto: Pushes messages to the bottom when there are few, but allows
+             natural flow (top-down) when there are many, preventing top clipping.
+          */}
+          <div className="flex-grow flex flex-col px-4 md:px-8 pb-2 pt-4">
              <div className="mt-auto max-w-4xl mx-auto w-full flex flex-col">
                 {messages.map((msg, index) => (
                   <ChatMessage key={msg.id} message={msg} />
@@ -171,23 +186,25 @@ function App() {
                     </div>
                   </div>
                 )}
+                {/* Invisible element to scroll to */}
                 <div ref={messagesEndRef} className="h-1" />
              </div>
           </div>
         </main>
 
-        {/* Input Area - Adjusted padding to remove bare space */}
-        <footer className="shrink-0 p-4 md:p-6 relative z-20">
-            {/* Reduced height of gradient overlay to avoid ghost space feeling */}
-           <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#EFECE2] to-transparent pointer-events-none" />
+        {/* Input Area */}
+        <footer className="shrink-0 p-3 md:p-6 relative z-20 bg-white/0">
+            {/* Subtle Gradient that doesn't consume too much space */}
+           <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#EFECE2] via-[#EFECE2]/80 to-transparent pointer-events-none" />
 
           <div className="relative max-w-4xl mx-auto">
             
+            {/* Suggested actions fade out when typing or loading, or if chat history gets long */}
             {!isLoading && messages.length < 3 && (
               <SuggestedActions onSelect={(q) => handleSend(q)} />
             )}
 
-            <div className="relative group transition-all duration-500 mt-0">
+            <div className="relative group transition-all duration-500">
               {/* Glowing 3D Depth Shadow */}
               <div className="absolute -inset-0.5 bg-gradient-to-r from-rialo-black/10 to-rialo-black/5 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-1000 group-focus-within:opacity-100" />
               
@@ -198,14 +215,14 @@ function App() {
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder="Enter command or query..."
-                    className="w-full pl-6 pr-16 py-5 bg-transparent border-none focus:ring-0 outline-none resize-none min-h-[64px] text-rialo-black placeholder-rialo-black/30 font-sans text-lg tracking-tight"
+                    className="w-full pl-4 md:pl-6 pr-14 md:pr-16 py-4 md:py-5 bg-transparent border-none focus:ring-0 outline-none resize-none min-h-[56px] md:min-h-[64px] text-rialo-black placeholder-rialo-black/30 font-sans text-base md:text-lg tracking-tight"
                     rows={1}
                   />
                   <button
                     onClick={() => handleSend()}
                     disabled={isLoading || !input.trim()}
                     className={`
-                      absolute right-3 bottom-3 p-3 rounded-xl transition-all duration-300
+                      absolute right-2 bottom-2 md:right-3 md:bottom-3 p-2 md:p-3 rounded-xl transition-all duration-300
                       ${(isLoading || !input.trim())
                         ? 'text-rialo-black/20 cursor-not-allowed scale-90'
                         : 'bg-rialo-black text-rialo-cream shadow-3d-btn hover:shadow-3d-btn-hover active:shadow-3d-btn-active active:translate-y-[4px] hover:translate-y-[-2px]'
@@ -213,20 +230,20 @@ function App() {
                     `}
                   >
                     {isLoading ? (
-                       <Sparkles size={20} className="animate-spin" />
+                       <Sparkles size={18} className="animate-spin" />
                     ) : (
-                       <ArrowUpRight size={22} strokeWidth={2} />
+                       <ArrowUpRight size={20} strokeWidth={2} />
                     )}
                   </button>
               </div>
             </div>
             
-            <div className="flex justify-between items-center mt-3 px-2 opacity-40 hover:opacity-100 transition-opacity duration-500">
-              <div className="font-mono text-[9px] tracking-widest text-rialo-black flex items-center gap-1">
+            <div className="flex justify-between items-center mt-2 px-2 opacity-40 hover:opacity-100 transition-opacity duration-500">
+              <div className="font-mono text-[8px] md:text-[9px] tracking-widest text-rialo-black flex items-center gap-1">
                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
                  SYSTEM ONLINE
               </div>
-              <div className="font-mono text-[9px] tracking-widest text-rialo-black">
+              <div className="font-mono text-[8px] md:text-[9px] tracking-widest text-rialo-black">
                  SUBZERO LABS // V1.0.2
               </div>
             </div>
