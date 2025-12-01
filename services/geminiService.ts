@@ -1,4 +1,4 @@
-import { GoogleGenAI, Part } from "@google/genai";
+import { GoogleGenerativeAI, Part } from "@google/generative-ai";
 import { GenerateContentParams } from "../types";
 import { SYSTEM_INSTRUCTION, SYSTEM_ATTACHMENTS } from "../constants";
 
@@ -13,7 +13,11 @@ export const generateResponse = async ({
   knowledgeBase
 }: GenerateContentParams): Promise<string> => {
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY as string);
+    const model = genAI.getGenerativeModel({
+        model: "gemini-1.5-flash",
+        systemInstruction: SYSTEM_INSTRUCTION,
+    });
     
     // Construct the parts array
     const parts: Part[] = [];
@@ -44,19 +48,17 @@ ${prompt}
     parts.push({ text: fullTextPrompt });
 
     // 3. Call the API
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: {
-        role: 'user',
-        parts: parts
-      },
-      config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
+    const result = await model.generateContent({
+      contents: [{ role: 'user', parts }],
+      generationConfig: {
         temperature: 0.5,
       }
     });
 
-    return response.text || "I couldn't generate a response. (｡•́︿•̀｡)";
+    const response = await result.response;
+    const text = response.text();
+
+    return text || "I couldn't generate a response. (｡•́︿•̀｡)";
 
   } catch (error) {
     console.error("Gemini API Error:", error);
