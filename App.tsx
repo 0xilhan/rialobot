@@ -82,7 +82,7 @@ function App() {
   };
 
   return (
-    <div className="relative flex h-[100dvh] w-full items-center justify-center overflow-hidden font-sans text-rialo-black bg-[#EFECE2]">
+    <div className="relative h-screen w-full overflow-hidden font-sans text-rialo-black bg-[#EFECE2] flex items-center justify-center">
       
       {/* --- 3D Background Elements --- */}
       <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#EFECE2] via-[#E5E1D4] to-[#DCD8CB] bg-[length:200%_200%] animate-gradient-move" />
@@ -105,7 +105,7 @@ function App() {
       <div className="bg-grain" />
 
       {/* --- Main Interface Container --- */}
-      <div className="relative z-10 flex flex-col h-[100dvh] md:h-[92vh] w-full md:max-w-5xl bg-rialo-cream/80 backdrop-blur-2xl md:border md:border-white/40 shadow-3d-card md:rounded-3xl overflow-hidden transition-all duration-700 animate-cinematic-fade-in group/card">
+      <div className="relative z-10 flex flex-col h-full md:h-[92vh] w-full md:max-w-5xl bg-rialo-cream/80 backdrop-blur-2xl md:border md:border-white/40 shadow-3d-card md:rounded-3xl overflow-hidden transition-all duration-700 animate-cinematic-fade-in group/card">
         
         {/* Header */}
         <header className="shrink-0 flex items-center justify-between px-6 py-5 border-b border-rialo-black/5 bg-white/40 backdrop-blur-md sticky top-0 z-20">
