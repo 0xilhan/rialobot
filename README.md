@@ -18,3 +18,9 @@ View your app in AI Studio: https://ai.studio/apps/drive/1Bpt1T_isTU5pDWBDyYafoy
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
    `npm run dev`
+
+## ⚠️ Security Warning ⚠️
+
+This application is configured for local development and demonstration purposes only. The current implementation exposes your `GEMINI_API_KEY` on the client-side, which is a significant security risk. **Do not deploy this application to a public-facing environment in its current state.**
+
+For production use, you must implement a backend proxy to securely handle API requests to the Gemini API. This will prevent your API key from being exposed to users.
